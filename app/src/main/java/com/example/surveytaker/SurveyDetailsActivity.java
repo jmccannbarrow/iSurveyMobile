@@ -34,6 +34,7 @@ public class SurveyDetailsActivity extends AppCompatActivity {
     String SURVEYNAME;
     String SURVEYDESCRIPTION;
     String SURVEYINSTANCEID;
+    String USERID;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class SurveyDetailsActivity extends AppCompatActivity {
         SURVEYID = extras.getString("SURVEY_ID");
         SURVEYNAME = extras.getString("SURVEY_NAME");
         SURVEYDESCRIPTION = extras.getString("SURVEY_DESCRIPTION");
+        USERID = extras.getString("USER_ID");
 
 
         buttonGoHome.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +109,7 @@ public class SurveyDetailsActivity extends AppCompatActivity {
                  surveyQuestionsIntent.putExtra("SURVEY_NAME", SURVEYNAME);
                  surveyQuestionsIntent.putExtra("SURVEY_DESCRIPTION", SURVEYDESCRIPTION);
                 surveyQuestionsIntent.putExtra("SURVEY_INSTANCE_ID", SURVEYINSTANCEID);
+                surveyQuestionsIntent.putExtra("USER_ID", USERID);
 
 
                 startActivity(surveyQuestionsIntent);

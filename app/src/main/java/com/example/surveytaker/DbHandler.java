@@ -54,7 +54,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
 
         String CREATE_SURVEYINSTANCES_TABLE = "CREATE TABLE " + TABLE_SURVEYINSTANCES + "("
-                + KEY_SURVEYINSTANCEID + " TEXT  ,"
+                + KEY_SURVEYINSTANCEID + " TEXT ,"
                 + KEY_SURVEYINSTANCE_QUESTIONID + " TEXT ," + KEY_SURVEYINSTANCE_SURVEYID + " TEXT ," + KEY_SURVEYINSTANCE_USERID + " TEXT ,"
                 + KEY_SURVEYINSTANCE_ANSWER + " TEXT ,"
                 + KEY_SURVEYINSTANCE_STATUS + " TEXT "

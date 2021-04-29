@@ -1,7 +1,9 @@
 package com.example.surveytaker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,12 +49,16 @@ public class MySurveysActivity extends AppCompatActivity {
                 String surveyID = map.get("survey_id");
                 String surveyName = map.get("survey_name");
                 String surveyDescription= map.get("survey_description");
-                Log.e(TAG, "surveyid:"  + surveyID);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                String userIdKey = sharedPreferences.getString("userIdKey", "");
+
 
                 Intent intentSurveyDetails  = new Intent(MySurveysActivity.this,SurveyDetailsActivity.class);
                 intentSurveyDetails.putExtra("SURVEY_ID", surveyID);
                 intentSurveyDetails.putExtra("SURVEY_NAME", surveyName);
                 intentSurveyDetails.putExtra("SURVEY_DESCRIPTION", surveyDescription);
+                intentSurveyDetails.putExtra("USER_ID", userIdKey);
                 startActivity(intentSurveyDetails);
             }
         });

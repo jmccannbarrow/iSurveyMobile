@@ -23,18 +23,11 @@ public class DevActivity extends AppCompatActivity {
 
     //Survey
     private Button buttonClearSurveysTable;
-    private Button buttonSaveTestSurveyRecordToDatabase;
-    private EditText  EditTextSurveyID;
-    private EditText EditTextSurveyName;
-    private EditText EditTextSurveyDescription;
 
 
     //Question
     private Button buttonClearQuestionsTable;
-    private Button buttonSaveTestQuestionRecordToDatabase;
-    private EditText  EditTextQuestionSurveyID;
-    private EditText EditTextQuestionID;
-    private EditText EditTextQuestion;
+
 
         public void onCreate(Bundle savedInstanceState) {
 
@@ -47,17 +40,10 @@ public class DevActivity extends AppCompatActivity {
 
         //Surveys Test Data
         buttonClearSurveysTable = (Button) findViewById(R.id.btnClearSurveysTable);
-        buttonSaveTestSurveyRecordToDatabase = (Button) findViewById(R.id.btnSaveTestSurveyRecordToDatabase);
-        EditTextSurveyID = (EditText) findViewById(R.id.txtSurveyID);
-        EditTextSurveyName = (EditText) findViewById(R.id.txtSurveyName);
-        EditTextSurveyDescription = (EditText) findViewById(R.id.txtSurveyDescription);
+
 
         //Questions Test Data
         buttonClearQuestionsTable = (Button) findViewById(R.id.btnClearQuestionsTable);
-        buttonSaveTestQuestionRecordToDatabase = (Button) findViewById(R.id.btnSaveTestQuestionRecordToDatabase);
-        EditTextQuestionSurveyID = (EditText) findViewById(R.id.txtQuestionSurveyID);
-        EditTextQuestionID = (EditText) findViewById(R.id.txtQuestionID);
-        EditTextQuestion = (EditText) findViewById(R.id.txtQuestion);
 
         buttonClearSurveyInstanceTable = (Button) findViewById(R.id.btnClearSurveyInstanceTable);
 
@@ -83,15 +69,6 @@ public class DevActivity extends AppCompatActivity {
             }
         });
 
-        buttonSaveTestSurveyRecordToDatabase.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                db.insertSurveyDetails(EditTextSurveyID.getText().toString(), EditTextSurveyName.getText().toString(), EditTextSurveyDescription.getText().toString());
-
-            }
-        });
 
 
         buttonClearQuestionsTable.setOnClickListener(new View.OnClickListener() {
@@ -104,15 +81,6 @@ public class DevActivity extends AppCompatActivity {
             }
         });
 
-        buttonSaveTestQuestionRecordToDatabase.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                db.insertQuestionDetails(EditTextQuestionSurveyID.getText().toString(), EditTextQuestionID.getText().toString(), EditTextQuestion.getText().toString());
-
-            }
-        });
 
             buttonClearSurveyInstanceTable.setOnClickListener(new View.OnClickListener() {
 
