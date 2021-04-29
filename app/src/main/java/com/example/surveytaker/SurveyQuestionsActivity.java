@@ -32,9 +32,7 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
     private Button buttonBackToSurveyDetails;
     private Button buttonDiscardSurvey;
     Intent intent;
-  //  TextView TextSurveyID;
-  //  TextView TextSurveyName;
-  //  TextView TextSurveyDescription;
+
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -51,7 +49,7 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
         DbHandler db = new DbHandler(this);
         String surveyinstancesurveyid = extras.getString("SURVEY_ID");
         String surveyinstanceid = extras.getString("SURVEY_INSTANCE_ID");
-        String surveyinstanceuserid = "8";
+        String surveyinstanceuserid = extras.getString("USER_ID");
 
         ArrayList<HashMap<String, String>> questionList = db.GetQuestions(surveyinstancesurveyid);
         ListView lv = (ListView) findViewById(R.id.question_list);
@@ -70,15 +68,13 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
 
                 String surveyinstancequestionid = TextView_surveyinstancequestionid.getText().toString();
                 String surveyinstanceanswer = editText_surveyinstanceanswer.getText().toString();
-                String surveyinstanceuserstatus = "1";
+                String surveyinstanceuserstatus = "1"; //InProgress
 
                 b.setOnClickListener(new OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
 
-                        Log.e(TAG, "hello world:" + surveyinstanceanswer );
-                        Log.e(TAG, "hello world:" + editText_surveyinstanceanswer.getText().toString() );
                         db.insertSurveyInstanceQuestionDetails(surveyinstanceid,  surveyinstancequestionid, surveyinstancesurveyid, surveyinstanceuserid, editText_surveyinstanceanswer.getText().toString(), surveyinstanceuserstatus);
 
                         }
@@ -111,12 +107,10 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                //update survey instance status from pending to finished
-                String surveyinstancestatus = "2";
+                //update survey instance status from pending to complete
+                String surveyinstancestatus = "2"; //Complete
 
-                Log.e(TAG, "hello from  setOnClickListener ny instance status is" + surveyinstancestatus );
-
-                db.setSurveyInstanceStatus(surveyinstanceid, surveyinstancestatus);
+                              db.setSurveyInstanceStatus(surveyinstanceid, surveyinstancestatus);
 
                // intent = new Intent(SurveyQuestionsActivity.this,SurveyDetailsActivity.class);
                // startActivity(intent);

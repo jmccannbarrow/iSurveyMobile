@@ -1,10 +1,13 @@
 package com.example.surveytaker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +42,7 @@ public class UploadSurveysActivity extends AppCompatActivity {
     DbHandler db = new DbHandler(this);
     String jsonInString;
 
+
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
@@ -70,20 +74,10 @@ public class UploadSurveysActivity extends AppCompatActivity {
                 try {
 
                     String s1 = jsonInString;
-                    Log.e(TAG, "Json parsing: " + jsonInString);
-                    //s1 = s1.replace("{\"dataList\":[", "");
                     s1 = s1.replace("{\"dataList\":", "");
-                    //String s2 = s1.replace("}]", "");
-                   // String s2 = s1.replace("}", "");
-                   // jsonInString = s2;
                     StringBuilder s2 = new StringBuilder(s1);
                     s2.replace(s2.length()-1, s2.length(), "");
-                    //s2.toString();
-
-
-
                     jsonInString = s2.toString();
-                    Log.e(TAG, "Json parsing: " + jsonInString);
                     new UploadSurveys().execute();
 
                 } catch (Exception ex) {
@@ -111,61 +105,15 @@ public class UploadSurveysActivity extends AppCompatActivity {
 
             HttpHandler sh = new HttpHandler();
             // Making a request to url and getting response
-            String url = "http://10.0.2.2:8000/ReceiveJSON/";
 
+            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String serverURLKey = sharedPreferences.getString("serverURLKey", "");
 
+            String url = serverURLKey + "/ReceiveJSON/";
+            Log.e(TAG, "url: " + url);
 
             sh.postServiceCall(url,  jsonInString);
-
-           // Log.e(TAG, "Response from url: " + jsonStr);
-          //  if (jsonStr != null) {
-                //try {
-               //     JSONObject jsonObj = new JSONObject(jsonStr);
-
-                    // Getting JSON Array node
-                    //JSONArray surveys = jsonObj.getJSONArray("surveys");
-
-                    // looping through All Surveys
-                    //for (int i = 0; i < surveys.length(); i++) {
-                    //    JSONObject c = surveys.getJSONObject(i);
-                    //    String surveyid = c.getString("surveyid");
-                     //   String surveyname = c.getString("surveyname");
-                     //   String surveydescription = c.getString("surveydescription");
-
-                     //   db.insertSurveyDetails(surveyid, surveyname, surveydescription);
-
-                        // tmp hash map for single contact
-                      //  HashMap<String, String> survey = new HashMap<>();
-
-                        // adding each child node to HashMap key => value
-                      //  survey.put("surveyid", surveyid);
-                     //   survey.put("surveyname", surveyname);
-                     //   survey.put("surveydescription", surveydescription);
-
-                        // adding survey to survey list
-                     //   surveyList.add(survey);
-                 //   }
-              //  } catch (final JSONException e) {
-               //     Log.e(TAG, "Json parsing error: " + e.getMessage());
-               //     runOnUiThread(new Runnable() {
-               //         @Override
-               //         public void run() {
-
-               //         }
-                //    });
-
-            //    }
-
-          //  } else {
-          //      Log.e(TAG, "Couldn't get json from server.");
-           //     runOnUiThread(new Runnable() {
-           //         @Override
-           //         public void run() {
-
-            //        }
-            //    });
-           // }
-
+            db.deleteSurveyInstances();
             return null;
         }
 

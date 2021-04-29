@@ -101,14 +101,24 @@ public class DownloadSurveysActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-            String url = "http://10.0.2.2:8000/usersurveys/8/";
 
+
+            db.deleteSurveyInstances();
+            db.deleteQuestions();
+            db.deleteSurveys();
+
+            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String serverURLKey = sharedPreferences.getString("serverURLKey", "");
+            String userIdKey = sharedPreferences.getString("userIdKey", "");
+
+            HttpHandler sh = new HttpHandler();
+
+            // Making a request to url and getting response
+           String url = serverURLKey + "/usersurveys/" + userIdKey + "/";
 
             String jsonStr = sh.makeServiceCall(url);
 
-            Log.e(TAG, "Response from url: " + jsonStr);
+
             if (jsonStr != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
@@ -192,7 +202,7 @@ public class DownloadSurveysActivity extends AppCompatActivity {
                 String url = "http://10.0.2.2:8000/userquestions/8/";
                 String jsonStr = sh.makeServiceCall(url);
 
-                Log.e(TAG, "Response from url: " + jsonStr);
+
                 if (jsonStr != null) {
                     try {
                         JSONObject jsonObj = new JSONObject(jsonStr);
@@ -252,10 +262,7 @@ public class DownloadSurveysActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-               // ListAdapter adapter = new SimpleAdapter(DownloadSurveysActivity.this, questionList,
-               //         R.layout.question_list_item, new String[]{"questionid", "surveyid", "questiondescription"},
-               //         new int[]{R.id.questionid, R.id.surveyid, R.id.questiondescription});
-               // lvQuestions.setAdapter(adapter);
+
             }
         }
 
