@@ -50,27 +50,21 @@ public class HttpHandler {
         try {
 
 
-            Log.e(TAG, "hello from  postServiceCall");
+
             URL urlObj = new URL(reqUrl);
             HttpURLConnection httpCon = (HttpURLConnection) urlObj.openConnection();
 
             httpCon.setDoOutput(true);
-            //httpCon.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
             httpCon.setRequestProperty("Content-Type", "application/json");
-
             httpCon.setRequestMethod("POST");
-
-            Log.e(TAG, "postServiceCall the string being uploaded is" + jsonInString);
-
             OutputStreamWriter writer = new OutputStreamWriter(httpCon.getOutputStream());
             writer.write(jsonInString);
-                writer.flush();
-            Log.e(TAG, "writer.write(jsonInString);" + jsonInString);
-
+            writer.flush();
             writer.close();
 
             httpCon.getResponseCode();
-            Log.e(TAG, "bye from  UploadSurveys");
+
 
         } catch (MalformedURLException e) {
             Log.e(TAG, "MalformedURLException: " + e.getMessage());
@@ -81,7 +75,7 @@ public class HttpHandler {
         } catch (Exception e) {
             Log.e(TAG, "Exception: " + e.getMessage());
         }
-        //return response;
+
     }
 
     private String convertStreamToString(InputStream is) {

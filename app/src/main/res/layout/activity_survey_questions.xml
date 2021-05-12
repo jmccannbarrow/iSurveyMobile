@@ -3,6 +3,21 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/TxtSurveyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:text="Survey Name" />
+
+
+    <TextView
+        android:id="@+id/TxtSurveyDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:text="Survey Description" />
+
     <ListView
         android:id="@+id/question_list"
         android:layout_width="wrap_content"
@@ -17,19 +32,6 @@
         android:layout_marginLeft="100dp"
         android:text="Save Survey" />
 
-    <Button
-        android:id="@+id/btnBackToSurveyDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:text="Back To Survey Details" />
-
-    <Button
-        android:id="@+id/btnDiscardSurvey"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:text="Discard Survey" />
 
       <Button
         android:id="@+id/btnGoHome"

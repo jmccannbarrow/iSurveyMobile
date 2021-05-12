@@ -24,8 +24,7 @@ public class SurveyDetailsActivity extends AppCompatActivity {
     private String TAG = SurveyDetailsActivity.class.getSimpleName();
     private Button buttonGoHome;
     private Button buttonStartSurvey;
-    private Button buttonBackToMySurveys;
-    private Button buttonMarkSurveyAsComplete;
+
     Intent intent;
     TextView TextSurveyID;
     TextView TextSurveyName;
@@ -34,6 +33,7 @@ public class SurveyDetailsActivity extends AppCompatActivity {
     String SURVEYNAME;
     String SURVEYDESCRIPTION;
     String SURVEYINSTANCEID;
+    String USERID;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,6 @@ public class SurveyDetailsActivity extends AppCompatActivity {
 
         buttonGoHome = (Button) findViewById(R.id.btnGoHome);
         buttonStartSurvey = (Button) findViewById(R.id.btnStartSurvey);
-        buttonBackToMySurveys = (Button) findViewById(R.id.btnBackToMySurveys);
-        buttonMarkSurveyAsComplete = (Button) findViewById(R.id.btnMarkSurveyAsComplete);
 
        TextSurveyID = (TextView)findViewById(R.id.TxtSurveyID);
         TextSurveyName = (TextView)findViewById(R.id.TxtSurveyName);
@@ -58,6 +56,7 @@ public class SurveyDetailsActivity extends AppCompatActivity {
         SURVEYID = extras.getString("SURVEY_ID");
         SURVEYNAME = extras.getString("SURVEY_NAME");
         SURVEYDESCRIPTION = extras.getString("SURVEY_DESCRIPTION");
+        USERID = extras.getString("USER_ID");
 
 
         buttonGoHome.setOnClickListener(new View.OnClickListener() {
@@ -73,28 +72,6 @@ public class SurveyDetailsActivity extends AppCompatActivity {
 
 
 
-        buttonBackToMySurveys.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                Intent mySurveysIntent = new Intent(SurveyDetailsActivity.this,MySurveysActivity.class);
-                startActivity(mySurveysIntent);
-
-            }
-        });
-
-        buttonMarkSurveyAsComplete.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                //Intent mySurveysIntent = new Intent(SurveyDetailsActivity.this,MySurveysActivity.class);
-                //startActivity(mySurveysIntent);
-
-            }
-        });
-
         buttonStartSurvey.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -107,6 +84,7 @@ public class SurveyDetailsActivity extends AppCompatActivity {
                  surveyQuestionsIntent.putExtra("SURVEY_NAME", SURVEYNAME);
                  surveyQuestionsIntent.putExtra("SURVEY_DESCRIPTION", SURVEYDESCRIPTION);
                 surveyQuestionsIntent.putExtra("SURVEY_INSTANCE_ID", SURVEYINSTANCEID);
+                surveyQuestionsIntent.putExtra("USER_ID", USERID);
 
 
                 startActivity(surveyQuestionsIntent);

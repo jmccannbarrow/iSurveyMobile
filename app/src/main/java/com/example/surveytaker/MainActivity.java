@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonMySurveys;
     private Button buttonUploadSurveys;
     private Button buttonSettings;
-    private Button buttonDev;
+
     Intent intent;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -74,22 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        buttonDev = (Button) findViewById(R.id.btnDev);
-        buttonDev.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                intent = new Intent(MainActivity.this,DevActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
-
-
 
 
 

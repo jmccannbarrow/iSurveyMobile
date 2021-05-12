@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 
 public class DbHandler extends SQLiteOpenHelper {
-    private static final int DB_VERSION = 10;
+    private static final int DB_VERSION = 11;
     private static final String DB_NAME = "surveydb";
     private static final String TABLE_SURVEYS = "surveys";
     private static final String KEY_SURVEYID = "surveyid";
@@ -32,7 +32,6 @@ public class DbHandler extends SQLiteOpenHelper {
     private static final String KEY_SURVEYINSTANCE_SURVEYID = "surveyid";
     private static final String KEY_SURVEYINSTANCE_USERID= "userid";
     private static final String KEY_SURVEYINSTANCE_ANSWER = "answer";
-    private static final String KEY_SURVEYINSTANCE_STATUS = "status";
 
 
     public DbHandler(Context context){
@@ -54,10 +53,9 @@ public class DbHandler extends SQLiteOpenHelper {
 
 
         String CREATE_SURVEYINSTANCES_TABLE = "CREATE TABLE " + TABLE_SURVEYINSTANCES + "("
-                + KEY_SURVEYINSTANCEID + " TEXT  ,"
+                + KEY_SURVEYINSTANCEID + " TEXT ,"
                 + KEY_SURVEYINSTANCE_QUESTIONID + " TEXT ," + KEY_SURVEYINSTANCE_SURVEYID + " TEXT ," + KEY_SURVEYINSTANCE_USERID + " TEXT ,"
-                + KEY_SURVEYINSTANCE_ANSWER + " TEXT ,"
-                + KEY_SURVEYINSTANCE_STATUS + " TEXT "
+                + KEY_SURVEYINSTANCE_ANSWER + " TEXT "
                 +  ")";
 
         db.execSQL(CREATE_SURVEYINSTANCES_TABLE);
@@ -107,7 +105,7 @@ public class DbHandler extends SQLiteOpenHelper {
     }
 
     // Adding new Survey Instance Questions
-    void insertSurveyInstanceQuestionDetails(String surveyinstanceid, String surveyinstancequestionid, String surveyinstancesurveyid, String surveyinstanceuserid, String surveyinstanceanswer, String surveyinstancestatus){
+    void insertSurveyInstanceQuestionDetails(String surveyinstanceid, String surveyinstancequestionid, String surveyinstancesurveyid, String surveyinstanceuserid, String surveyinstanceanswer){
         //Get the Data Repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
         //Create a new map of values, where column names are the keys
@@ -117,7 +115,6 @@ public class DbHandler extends SQLiteOpenHelper {
         cValues.put(KEY_SURVEYINSTANCE_SURVEYID, surveyinstancesurveyid);
         cValues.put(KEY_SURVEYINSTANCE_USERID, surveyinstanceuserid);
         cValues.put(KEY_SURVEYINSTANCE_ANSWER, surveyinstanceanswer);
-        cValues.put(KEY_SURVEYINSTANCE_STATUS, surveyinstancestatus);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(TABLE_SURVEYINSTANCES,null, cValues);
@@ -196,27 +193,11 @@ public class DbHandler extends SQLiteOpenHelper {
     }
 
 
-    void setSurveyInstanceStatus(String surveyinstanceid, String surveyinstancestatus){
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        String strFilter = "surveyinstanceid = " + "'" + surveyinstanceid + "'";
-        ContentValues args = new ContentValues();
-        args.put(KEY_SURVEYINSTANCE_STATUS, surveyinstancestatus);
-        db.update(TABLE_SURVEYINSTANCES, args, strFilter, null);
-
-        //SQLiteDatabase db = this.getWritableDatabase();
-        //String strFilter = "surveyinstanceid = ?";
-        //ContentValues args = new ContentValues();
-        //args.put(KEY_SURVEYINSTANCE_STATUS, surveyinstancestatus);
-        //db.update(TABLE_SURVEYINSTANCES, args, strFilter, new String[]{surveyinstanceid});
-    }
-
-
     public Cursor getAllCompletedSurveyInstances() {
         SQLiteDatabase db = this.getWritableDatabase();
         //Cursor c=db.rawQuery("select distinct * from "+TABLE_Name+" where "+Col_3+" LIKE '%?%' and "+Col_4+" LIKE '%?%'", new String[]{DepartStation,Destination});
 
-        String query = "SELECT surveyid, questionid, userid, surveyinstanceid, answer FROM " + TABLE_SURVEYINSTANCES + " WHERE status = '2'";
+        String query = "SELECT surveyid, questionid, userid, surveyinstanceid, answer FROM " + TABLE_SURVEYINSTANCES;
         Cursor cursor = db.rawQuery(query,null);
         return cursor;
     }

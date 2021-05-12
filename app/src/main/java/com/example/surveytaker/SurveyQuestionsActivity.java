@@ -29,12 +29,10 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
     private String TAG = SurveyQuestionsActivity.class.getSimpleName();
     private Button buttonGoHome;
     private Button buttonSaveSurvey;
-    private Button buttonBackToSurveyDetails;
-    private Button buttonDiscardSurvey;
     Intent intent;
-  //  TextView TextSurveyID;
-  //  TextView TextSurveyName;
-  //  TextView TextSurveyDescription;
+    TextView TextSurveyName;
+    TextView TextSurveyDescription;
+
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -44,14 +42,21 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
 
         buttonGoHome = (Button) findViewById(R.id.btnGoHome);
         buttonSaveSurvey = (Button) findViewById(R.id.btnSaveSurvey);
-        buttonBackToSurveyDetails = (Button) findViewById(R.id.btnBackToSurveyDetails);
-        buttonDiscardSurvey = (Button) findViewById(R.id.btnDiscardSurvey);
 
 
         DbHandler db = new DbHandler(this);
         String surveyinstancesurveyid = extras.getString("SURVEY_ID");
         String surveyinstanceid = extras.getString("SURVEY_INSTANCE_ID");
-        String surveyinstanceuserid = "8";
+        String surveyinstanceuserid = extras.getString("USER_ID");
+        String surveyname = extras.getString("SURVEYNAME");
+        String surveydescription = extras.getString("SURVEY_DESCRIPTION");
+
+        TextSurveyName = (TextView)findViewById(R.id.TxtSurveyName);
+        TextSurveyDescription = (TextView)findViewById(R.id.TxtSurveyDescription);
+
+        TextSurveyName.setText(surveyname);
+        TextSurveyDescription.setText(surveydescription);
+
 
         ArrayList<HashMap<String, String>> questionList = db.GetQuestions(surveyinstancesurveyid);
         ListView lv = (ListView) findViewById(R.id.question_list);
@@ -70,16 +75,13 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
 
                 String surveyinstancequestionid = TextView_surveyinstancequestionid.getText().toString();
                 String surveyinstanceanswer = editText_surveyinstanceanswer.getText().toString();
-                String surveyinstanceuserstatus = "1";
 
                 b.setOnClickListener(new OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
 
-                        Log.e(TAG, "hello world:" + surveyinstanceanswer );
-                        Log.e(TAG, "hello world:" + editText_surveyinstanceanswer.getText().toString() );
-                        db.insertSurveyInstanceQuestionDetails(surveyinstanceid,  surveyinstancequestionid, surveyinstancesurveyid, surveyinstanceuserid, editText_surveyinstanceanswer.getText().toString(), surveyinstanceuserstatus);
+                        db.insertSurveyInstanceQuestionDetails(surveyinstanceid,  surveyinstancequestionid, surveyinstancesurveyid, surveyinstanceuserid, editText_surveyinstanceanswer.getText().toString());
 
                         }
                 });
@@ -99,7 +101,7 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
 
 
                 //delete any records relating to the survey instance
-                //db.discardSurveyInstance(surveyinstanceid);
+                db.discardSurveyInstance(surveyinstanceid);
                 intent = new Intent(SurveyQuestionsActivity.this,MainActivity.class);
                 startActivity(intent);
 
@@ -111,43 +113,12 @@ public class SurveyQuestionsActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-                //update survey instance status from pending to finished
-                String surveyinstancestatus = "2";
 
-                Log.e(TAG, "hello from  setOnClickListener ny instance status is" + surveyinstancestatus );
-
-                db.setSurveyInstanceStatus(surveyinstanceid, surveyinstancestatus);
-
-               // intent = new Intent(SurveyQuestionsActivity.this,SurveyDetailsActivity.class);
-               // startActivity(intent);
-
-            }
-        });
-
-        buttonBackToSurveyDetails.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-               // db.discardSurveyInstance(surveyinstanceid);
-                Intent SurveyDetailsIntent = new Intent(SurveyQuestionsActivity.this,SurveyDetailsActivity.class);
-                startActivity(SurveyDetailsIntent);
-
-            }
-        });
-
-        buttonDiscardSurvey.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-                //delete any records relating to this survey instance
-                db.discardSurveyInstance(surveyinstanceid);
                 intent = new Intent(SurveyQuestionsActivity.this,MainActivity.class);
                 startActivity(intent);
 
             }
         });
-
 
     }
 }

@@ -8,7 +8,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
-        android:text="Survey ID" />
+        android:text="Survey ID"
+        android:visibility = "gone" />
 
 
     <TextView
@@ -34,19 +35,7 @@
         android:layout_marginLeft="100dp"
         android:text="Start Survey" />
 
-    <Button
-        android:id="@+id/btnMarkSurveyAsComplete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:text="Mark Survey As Complete" />
 
-    <Button
-        android:id="@+id/btnBackToMySurveys"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:text="Back To My Surveys" />
 
     <Button
         android:id="@+id/btnGoHome"

@@ -18,28 +18,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DownloadSurveysActivity">
+        <activity android:name=".DownloadSurveysActivity" android:label="SurveyTaker - Download Surveys">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MySurveysActivity">
+        <activity android:name=".MySurveysActivity" android:label="SurveyTaker - My Surveys">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UploadSurveysActivity">
+        <activity android:name=".UploadSurveysActivity" android:label="SurveyTaker - Upload Surveys">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity">
+        <activity android:name=".SettingsActivity" android:label="SurveyTaker - Settings">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,13 +47,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DevActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <activity android:name=".SurveyDetailsActivity">
             <intent-filter>
@@ -63,7 +56,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SurveyQuestionsActivity">
+        <activity android:name=".SurveyQuestionsActivity" android:label="SurveyTaker - Survey Questions">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

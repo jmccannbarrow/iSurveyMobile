@@ -38,12 +38,12 @@ public class DownloadSurveysActivity extends AppCompatActivity {
     private Button buttonGoHome;
     private Button buttonDownloadSurveys;
     Intent intent;
-    private ListView lv;
-    private ListView lvQuestions;
+    TextView TextStatus;
+
     DbHandler db = new DbHandler(this);
 
-    ArrayList<HashMap<String, String>> surveyList;
-    ArrayList<HashMap<String, String>> questionList;
+   // ArrayList<HashMap<String, String>> surveyList;
+   // ArrayList<HashMap<String, String>> questionList;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -52,11 +52,8 @@ public class DownloadSurveysActivity extends AppCompatActivity {
         setContentView(R.layout.activity_download_surveys);
 
 
-        surveyList = new ArrayList<>();
-        lv = (ListView) findViewById(R.id.list);
 
-        questionList = new ArrayList<>();
-        lvQuestions = (ListView) findViewById(R.id.questionlist);
+        TextStatus = (TextView)findViewById(R.id.TxtStatus);
 
         buttonGoHome = (Button) findViewById(R.id.btnGoHome);
         buttonGoHome.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +74,19 @@ public class DownloadSurveysActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
+                Toast.makeText(getApplicationContext(),
+                        "Downloading Surveys & Questions",
+                        Toast.LENGTH_LONG).show();
+
 
                 new GetSurveys().execute();
                 new GetQuestions().execute();
+
+                Toast.makeText(getApplicationContext(),
+                        "Surveys & Questions Downloaded",
+                        Toast.LENGTH_LONG).show();
+
+                TextStatus.setText("Surveys & Questions Downloaded");
 
             }
 
@@ -101,14 +108,25 @@ public class DownloadSurveysActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            HttpHandler sh = new HttpHandler();
-            // Making a request to url and getting response
-            String url = "http://10.0.2.2:8000/usersurveys/8/";
 
+
+            db.deleteSurveyInstances();
+            db.deleteQuestions();
+            db.deleteSurveys();
+
+            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            String serverURLKey = sharedPreferences.getString("serverURLKey", "");
+            String userIdKey = sharedPreferences.getString("userIdKey", "");
+            String passCodeKey = sharedPreferences.getString("passCodeKey", "");
+
+            HttpHandler sh = new HttpHandler();
+
+            // Making a request to url and getting response
+           String url = serverURLKey + "/usersurveys/" + userIdKey + "/" + passCodeKey +"/";
 
             String jsonStr = sh.makeServiceCall(url);
 
-            Log.e(TAG, "Response from url: " + jsonStr);
+
             if (jsonStr != null) {
                 try {
                     JSONObject jsonObj = new JSONObject(jsonStr);
@@ -125,16 +143,8 @@ public class DownloadSurveysActivity extends AppCompatActivity {
 
                         db.insertSurveyDetails(surveyid, surveyname, surveydescription);
 
-                        // tmp hash map for single contact
-                        HashMap<String, String> survey = new HashMap<>();
 
-                        // adding each child node to HashMap key => value
-                        survey.put("surveyid", surveyid);
-                        survey.put("surveyname", surveyname);
-                        survey.put("surveydescription", surveydescription);
 
-                        // adding survey to survey list
-                        surveyList.add(survey);
                     }
                 } catch (final JSONException e) {
                     Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -167,10 +177,7 @@ public class DownloadSurveysActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            ListAdapter adapter = new SimpleAdapter(DownloadSurveysActivity.this, surveyList,
-                    R.layout.survey_list_item, new String[]{"surveyid", "surveyname", "surveydescription"},
-                    new int[]{R.id.surveyid, R.id.surveyname, R.id.surveydescription});
-            lv.setAdapter(adapter);
+
         }
     }
 
@@ -188,11 +195,18 @@ public class DownloadSurveysActivity extends AppCompatActivity {
             protected Void doInBackground(Void... arg0) {
 
                 HttpHandler sh = new HttpHandler();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                String serverURLKey = sharedPreferences.getString("serverURLKey", "");
+                String userIdKey = sharedPreferences.getString("userIdKey", "");
+                String passCodeKey = sharedPreferences.getString("passCodeKey", "");
+
                 // Making a request to url and getting response
-                String url = "http://10.0.2.2:8000/userquestions/8/";
+               String url = serverURLKey + "/userquestions/" + userIdKey + "/" + passCodeKey +"/";
+
                 String jsonStr = sh.makeServiceCall(url);
 
-                Log.e(TAG, "Response from url: " + jsonStr);
+
                 if (jsonStr != null) {
                     try {
                         JSONObject jsonObj = new JSONObject(jsonStr);
@@ -210,6 +224,7 @@ public class DownloadSurveysActivity extends AppCompatActivity {
 
                             db.insertQuestionDetails(surveyid, questionid, questiondescription);
 
+                            /*
                             // tmp hash map for single question
                             HashMap<String, String> question = new HashMap<>();
 
@@ -220,6 +235,8 @@ public class DownloadSurveysActivity extends AppCompatActivity {
 
                             // adding question to question list
                             questionList.add(question);
+
+                             */
                         }
                     } catch (final JSONException e) {
                         Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -252,10 +269,7 @@ public class DownloadSurveysActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void result) {
                 super.onPostExecute(result);
-               // ListAdapter adapter = new SimpleAdapter(DownloadSurveysActivity.this, questionList,
-               //         R.layout.question_list_item, new String[]{"questionid", "surveyid", "questiondescription"},
-               //         new int[]{R.id.questionid, R.id.surveyid, R.id.questiondescription});
-               // lvQuestions.setAdapter(adapter);
+
             }
         }
 

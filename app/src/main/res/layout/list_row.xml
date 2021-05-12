@@ -7,7 +7,8 @@
         android:id="@+id/survey_id"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dip" />
+        android:paddingBottom="2dip"
+        android:visibility = "gone" />
 
     <TextView
         android:id="@+id/survey_name"

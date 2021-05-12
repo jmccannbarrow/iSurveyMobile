@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:textStyle="bold"
-        android:textColor="#5d5d5d" />
+        android:textColor="#5d5d5d"
+        android:visibility = "gone" />
 
     <TextView
         android:id="@+id/surveyname"
